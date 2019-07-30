@@ -77,7 +77,7 @@ if __name__ == "__main__":
     for line in lines:
         item = add_taxes(parse(line))
 
-        output_lines.append(f'{item["count"]} {item["description"]}: {item["count"] * item["post_taxes_unit_price"]}')
+        output_lines.append("{} {}: {:.2f}".format(item["count"], item["description"], x_to_nearest_y(item["count"] * item["post_taxes_unit_price"], 0.01)))
 
         total += item["count"] * item["post_taxes_unit_price"]
         sales_taxes += item["count"] * (item["post_taxes_unit_price"] - item["pre_taxes_unit_price"])

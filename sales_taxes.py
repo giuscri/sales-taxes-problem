@@ -1,7 +1,27 @@
+import re
+
 def parse(line):
     """Returns dict representing an item parsed from a text line."""
 
-    pass
+    pattern = re.compile(r"""
+    \s*
+    (?P<count>\d+)
+    \s+
+    (?P<description>.*)
+    \s+
+    at
+    \s+
+    (?P<pre_taxes_unit_price>\d+\.\d+)
+    \s*
+    """, re.VERBOSE)
+
+    m = pattern.match(line)
+    item = m.groupdict()
+    item["count"] = int(item["count"])
+    item["pre_taxes_unit_price"] = float(item["pre_taxes_unit_price"])
+    item["imported"] = "imported" in item["description"]
+
+    return item
 
 def add_taxes(item):
     """Returns dict identical to item but with taxes informations."""

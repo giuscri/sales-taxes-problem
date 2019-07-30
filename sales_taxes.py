@@ -1,5 +1,11 @@
 import re
 
+with open("food.txt") as f:
+    FOOD_DICTIONARY = tuple(map(lambda line: line.strip(), f.read().strip().split("\n")))
+
+with open("illness.txt") as f:
+    ILLNESS_DICTIONARY = tuple(map(lambda line: line.strip(), f.read().strip().split("\n")))
+
 def parse(line):
     """Returns dict representing an item parsed from a text line."""
 
@@ -26,7 +32,29 @@ def parse(line):
 def add_taxes(item):
     """Returns dict identical to item but with taxes informations."""
 
-    pass
+    item = item.copy() # Don't mutate input dict
+
+    alpha = 1 + 0.10 + 0.05
+
+    if not item.get("imported"):
+        alpha -= 0.05
+
+    for token in re.split(r"\s+", item["description"]):
+        if token in FOOD_DICTIONARY:
+            alpha -= 0.10
+            break
+
+        if token in ILLNESS_DICTIONARY:
+            alpha -= 0.10
+            break
+
+        if token == "book" or token == "books":
+            alpha -= 0.10
+            break
+
+    item["post_taxes_unit_price"] = item["pre_taxes_unit_price"] * alpha
+
+    return item
 
 def x_to_nearest_y(x, y):
     return y * round(x / y) # https://math.stackexchange.com/a/457889/103884

@@ -83,5 +83,20 @@ def test_e2e_with_input3():
     process = subprocess.run(["python", "sales_taxes.py"], stdout=subprocess.PIPE, input=input3, encoding="utf-8")
     assert process.stdout == "1 imported bottle of perfume: 32.19\n1 bottle of perfume: 20.89\n1 packet of headache pills: 9.75\n3 imported box of chocolates: 35.55\nSales Taxes: 7.90\nTotal: 98.38\n"
 
+def test_e2e_with_0xb2_book():
+    process = subprocess.run(["python", "sales_taxes.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, input=b"\xb2 book at 12.49")
+    assert process.stderr.startswith(b"[fatal]")
+    assert process.returncode == 1
+
+def test_e2e_with_r_book():
+    process = subprocess.run(["python", "sales_taxes.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, input="r book at 12.49", encoding="utf-8")
+    assert process.stderr.startswith("[fatal]")
+    assert process.returncode == 1
+
+def test_e2e_with_empty_input():
+    process = subprocess.run(["python", "sales_taxes.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, input="", encoding="utf-8")
+    assert process.stderr.startswith("[fatal]")
+    assert process.returncode == 1
+
 if __name__ == "__main__":
     pytest.main()

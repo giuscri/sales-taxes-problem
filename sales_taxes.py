@@ -23,6 +23,9 @@ def parse(line):
     """, re.VERBOSE)
 
     m = pattern.match(line)
+    if not m:
+        raise ValueError()
+
     item = m.groupdict()
     item["count"] = int(item["count"])
     item["pre_taxes_unit_price"] = float(item["pre_taxes_unit_price"])
@@ -72,13 +75,18 @@ def x_to_next_y(x, y):
 
 if __name__ == "__main__":
     from sys import stdin
-    import afl
+    import afl, sys
 
     afl.init()
 
     lines = []
     while True:
-        line = stdin.readline()
+        try:
+            line = stdin.readline()
+        except UnicodeDecodeError:
+            print("[fatal] Failed while reading input", file=sys.stderr)
+            sys.exit(1)
+
         if not line:
             break
 
@@ -88,8 +96,18 @@ if __name__ == "__main__":
     total = 0
     sales_taxes = 0
 
+    if not lines:
+        print("[fatal] No input received", file=sys.stderr)
+        sys.exit(1)
+
     for line in lines:
-        item = add_taxes(parse(line))
+        try:
+            item = parse(line)
+        except ValueError:
+            print("[fatal] Failed while parsing input", file=sys.stderr)
+            sys.exit(1)
+
+        item = add_taxes(item)
 
         output_lines.append("{} {}: {:.2f}".format(item["count"], item["description"], item["count"] * item["post_taxes_unit_price"]))
 

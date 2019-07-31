@@ -1,5 +1,6 @@
 from sales_taxes import x_to_nearest_y, parse, add_taxes, x_to_next_y
 from math import isclose
+import pytest
 
 def test_1dot49_to_nearest_0dot05():
     assert isclose(x_to_nearest_y(1.49, 0.05), 1.50)
@@ -60,3 +61,6 @@ def test_add_taxes_on_1_music_cd():
 def test_add_taxes_on_imported_bottle_of_perfume():
     item = add_taxes({"description": "imported bottle of perfume", "pre_taxes_unit_price": 27.99, "imported": True})
     assert isclose(item["post_taxes_unit_price"], 32.19)
+
+if __name__ == "__main__":
+    pytest.main()

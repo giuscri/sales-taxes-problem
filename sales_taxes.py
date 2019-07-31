@@ -72,6 +72,9 @@ def x_to_next_y(x, y):
 
 if __name__ == "__main__":
     from sys import stdin
+    import afl
+
+    afl.init()
 
     lines = []
     while True:

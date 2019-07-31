@@ -1,4 +1,5 @@
 import re
+from math import ceil
 
 with open("food.txt") as f:
     FOOD_DICTIONARY = tuple(map(lambda line: line.strip(), f.read().strip().split("\n")))
@@ -34,30 +35,38 @@ def add_taxes(item):
 
     item = item.copy() # Don't mutate input dict
 
-    alpha = 1 + 0.10 + 0.05
-
-    if not item.get("imported"):
-        alpha -= 0.05
+    non_taxed_item = False
 
     for token in re.split(r"\s+", item["description"]):
         if token in FOOD_DICTIONARY:
-            alpha -= 0.10
+            non_taxed_item = True
             break
 
         if token in ILLNESS_DICTIONARY:
-            alpha -= 0.10
+            non_taxed_item = True
             break
 
         if token == "book" or token == "books":
-            alpha -= 0.10
+            non_taxed_item = True
             break
 
-    item["post_taxes_unit_price"] = item["pre_taxes_unit_price"] * alpha
+    alpha = 0
+
+    if not non_taxed_item:
+        alpha += 0.1
+
+    if item.get("imported"):
+        alpha += 0.05
+
+    item["post_taxes_unit_price"] = item["pre_taxes_unit_price"] + x_to_next_y(item["pre_taxes_unit_price"] * alpha, 0.05)
 
     return item
 
 def x_to_nearest_y(x, y):
     return y * round(x / y) # https://math.stackexchange.com/a/457889/103884
+
+def x_to_next_y(x, y):
+    return y * ceil(x / y)
 
 if __name__ == "__main__":
     from sys import stdin

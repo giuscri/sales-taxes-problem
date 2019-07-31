@@ -1,4 +1,4 @@
-from sales_taxes import x_to_nearest_y, parse, add_taxes
+from sales_taxes import x_to_nearest_y, parse, add_taxes, x_to_next_y
 from math import isclose
 
 def test_1dot49_to_nearest_0dot05():
@@ -6,6 +6,12 @@ def test_1dot49_to_nearest_0dot05():
 
 def test_1dot2498_to_nearest_0dot01():
     assert isclose(x_to_nearest_y(1.2498, 0.01), 1.25)
+
+def test_54dot62499_to_next_0dot05():
+    assert isclose(x_to_next_y(54.62499, 0.05), 54.65)
+
+def test_0dot5625_to_next_0dot05():
+    assert isclose(x_to_next_y(0.5625, 0.05), 0.6)
 
 def test_parse_2_books_at_12dot49():
     actual = parse("2 books at 12.49")
@@ -49,8 +55,8 @@ def test_add_taxes_on_1_imported_box_of_chocolates():
 
 def test_add_taxes_on_1_music_cd():
     item = add_taxes({"description": "music CD", "pre_taxes_unit_price": 14.99})
-    assert isclose(item["post_taxes_unit_price"], 16.489)
+    assert isclose(item["post_taxes_unit_price"], 16.49)
 
 def test_add_taxes_on_imported_bottle_of_perfume():
     item = add_taxes({"description": "imported bottle of perfume", "pre_taxes_unit_price": 27.99, "imported": True})
-    assert isclose(item["post_taxes_unit_price"], 32.1885)
+    assert isclose(item["post_taxes_unit_price"], 32.19)

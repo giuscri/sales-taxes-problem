@@ -1,6 +1,41 @@
 # Sales taxes problem
 This problem requires some kind of input. You are free to implement any mechanism for feeding input into your solution (for example, using hard coded data within a unit test). You should provide sufficient evidence that your solution is complete by, as a minimum, indicating that it works correctly against the supplied test data.
 
+## How to run
+
+```
+$ cat input1|make run # piping from stdin
+...
+2 book: 24.98
+1 music CD: 16.49
+1 chocolate bar: 0.85
+Sales Taxes: 1.50
+Total: 42.32
+```
+
+```
+$ make run # typing yourself
+...
+** Running sales_taxes in a container
+** Type items purchased, one per line, as "1 book at 12.45"
+** When you're done press [ctrl-d]
+1 coffee at 0.99
+^D
+1 coffee: 0.99
+Sales Taxes: 0.00
+Total: 0.99
+```
+
+You can run tests via
+```
+$ make test
+```
+
+You can fuzz the script via
+```
+$ make fuzz
+```
+
 ## PROBLEM: SALES TAXES
 
 **Basic sales tax** is applicable at a rate of **10%** on all goods, **except** books, food, and medical products that are exempt. **Import duty** is an additional sales tax applicable on all imported goods at a rate of 5%, with no exemptions.

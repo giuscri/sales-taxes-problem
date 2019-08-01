@@ -1,4 +1,4 @@
-.PHONY: test
+.PHONY: test fuzz docker-build-image pytest pipenv-pytest
 
 test: docker-build-image
 	sudo docker run --rm sales-taxes make pytest

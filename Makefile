@@ -1,5 +1,12 @@
 .PHONY: test fuzz docker-build-image pytest pipenv-pytest
 
+run: docker-build-image
+	@echo -e "\e[1m\e[33m** Running sales_taxes in a container\e[0m"
+	@echo -e '\e[1m\e[33m** Type items purchased, one per line, as "1 book at 12.45"\e[0m'
+	@echo -e "\e[1m\e[33m** When you're done press [ctrl-d]\e[0m"
+
+	sudo docker run --rm -i sales-taxes python3 sales_taxes.py
+
 test: docker-build-image
 	sudo docker run --rm sales-taxes make pytest
 

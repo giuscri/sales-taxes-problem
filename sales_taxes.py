@@ -18,7 +18,7 @@ def parse(line):
     \s+
     at
     \s+
-    (?P<pre_taxes_unit_price>\d+\.\d+)
+    (?P<pre_taxes_unit_price>\d+(?:\.\d+)?)
     \s*
     """, re.VERBOSE)
 

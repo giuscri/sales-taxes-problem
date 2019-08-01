@@ -22,6 +22,14 @@ def test_parse_2_books_at_12dot49():
     assert isclose(actual["pre_taxes_unit_price"], expected["pre_taxes_unit_price"])
     assert actual["imported"] == expected["imported"]
 
+def test_parse_2_books_at_0():
+    actual = parse("2 books at 0")
+    expected = {"count": 2, "description": "books", "pre_taxes_unit_price": 0.00, "imported": False}
+    assert actual["count"] == expected["count"]
+    assert actual["description"] == expected["description"]
+    assert isclose(actual["pre_taxes_unit_price"], expected["pre_taxes_unit_price"])
+    assert actual["imported"] == expected["imported"]
+
 def test_parse_1_imported_bottle_of_perfume_at_27dot99():
     actual = parse("1 imported bottle of perfume at 27.99")
     expected = {"count": 1, "description": "imported bottle of perfume", "pre_taxes_unit_price": 27.99, "imported": True}

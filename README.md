@@ -3,6 +3,8 @@ This problem requires some kind of input. You are free to implement any mechanis
 
 ## How to run
 
+**YOU WILL BE PROMPTED FOR YOUR PASSWORD: DOCKER NEEDS TO RUN AS SUDO**
+
 ```
 $ cat input1|make run # piping from stdin
 ...

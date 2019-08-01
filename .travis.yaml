@@ -4,5 +4,4 @@ services:
 	- docker
 
 script:
-	- docker build -t sales-taxes -f Dockerfile .
-	- docker run --rm sales-taxes
+	- make
